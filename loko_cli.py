@@ -10,6 +10,11 @@ import logging
 class LokoCLI:
     CLI_VERSION = "Loko CLI 0.0.1"
     INI_FILE = "loko.ini"
+    user_folder = f"{os.getenv('APPDATA')}/loko_cli"
+
+    def __create_user_folder(self):
+        if not os.path.exists(self.user_folder):
+            os.mkdir(self.user_folder)
 
     def __load_ini_file(self, filename):
         full_path = os.path.abspath(os.path.join(".", filename))
@@ -34,6 +39,7 @@ class LokoCLI:
             return False
 
     def __init__(self):
+        self.__create_user_folder()
         if self.__load_ini_file(self.INI_FILE):
             self.__run()
 
@@ -58,3 +64,4 @@ class LokoCLI:
 
 
 # Fim
+# @Copyright Gabriel Gomes/Lokost Games 2023
