@@ -10,6 +10,9 @@ from wppbot.table_tratment import MessagesTable
 from random import choice
 from urllib.parse import quote
 
+def cls():
+    from os import system, name
+    system('cls' if name == 'nt' else 'clear')
 
 class WPPBot:
     bot_folder = f"{getenv('APPDATA')}\\loko_cli\\lokowppbot"
@@ -31,14 +34,12 @@ class WPPBot:
             with open(
                 f"{self.bot_folder}\\settings.json", "w", encoding="utf-8"
             ) as settings_file:
-                self.settings = (
-                    {
-                        "browser": "chrome",
+                self.settings = {
+                        "browser": "edge",
                         "wait_time": 5,
                         "keep_browser": True,
-                        "default_columns": ["Nome", "Email", "Telefone"],
-                    },
-                )
+                        "default_columns": ["name", "contact", "type"],
+                    }
                 dump(
                     self.settings,
                     settings_file,
@@ -111,7 +112,7 @@ class WPPBot:
         print("Opening browser...", end="\r")
         self.browser.get("https://web.whatsapp.com/")
         print("Waiting the whatsapp authentication...", end="\r")
-        while not self.browser.find_element(By.ID, "side"):
+        while not self.browser.find_elements(By.ID, "side"):
             sleep(1)
         print("Browser Ready!")
 
@@ -119,8 +120,9 @@ class WPPBot:
         link = f"https://web.whatsapp.com/send?phone={number}&text={message}"
         self.browser.get(link)
 
-        while not self.browser.find_element(By.ID, "side"):
+        while not self.browser.find_elements(By.ID, "side"):
             sleep(1)
+        sleep(2)
 
         worked = False
         for i in range(5):
@@ -172,11 +174,12 @@ class WPPBot:
         print("Sending messages...", end="\r")
         for row in table.index:
             try:
-                number = str(int(table.loc[row, "Telefone"]))
+                number = str(int(table.loc[row, "contact"]))
             except ValueError:
-                number = str(table.loc[row, "Telefone"])
+                number = str(table.loc[row, "contact"])
 
-            print(f"{row}/{len(table.index)}\nSending message to {number}...", end="\r")
+            cls()
+            print(f"Message number: {row + 1}/{len(table.index)}\nSending message to {number}...")
 
             if self.__send_message(
                 message=self.__message_parser(message), number=number
@@ -186,6 +189,7 @@ class WPPBot:
                 print("Message not sent!", end="\r")
             
             sleep(self.settings["wait_time"] - 1.5)
+        cls()
         print("Finished!")
 
     def __init__(self):

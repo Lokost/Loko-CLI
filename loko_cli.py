@@ -21,7 +21,7 @@ class LokoCLI:
             os.mkdir(self.user_folder)
     
     def __load_ini_file(self, filename):
-        full_path = os.path.abspath(os.path.join(self.user_folder, filename))
+        full_path = os.path.abspath(os.path.join(".", filename))
         path_config_file = (
             full_path
             if os.path.isfile(full_path)
@@ -72,7 +72,7 @@ class LokoCLI:
 
         if parse_args:
             try:
-                if parse_args.creatable:
+                if parse_args.createtable:
                     self.wppbot = WPPBot()
                     print("Create a table with the default columns")
                     self.wppbot.tableManager.create_table(
@@ -89,7 +89,7 @@ class LokoCLI:
                         auto_message = parse_args.automessage,
                     )
 
-                if parse_args.confing:
+                if parse_args.config:
                     print("Configurações do bot wpp")
 
             except Exception as e:
@@ -147,3 +147,4 @@ class LokoCLI:
         )
 
 #Fim
+# @Copyright Gabriel Gomes/Lokost Games 2023
