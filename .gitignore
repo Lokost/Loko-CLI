@@ -2,4 +2,8 @@ loko cli
 __pycache__
 build
 dist
-.spec
+*.spec
+*.zip
+*.txt
+*.xlsx
+*.xls
