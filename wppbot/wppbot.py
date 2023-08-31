@@ -196,6 +196,5 @@ class WPPBot:
     def create_table(self):
         self.tableManager = MessagesTable(self.settings["columns"])
 
-
 # Fim
 # @Copyright Gabriel Gomes/Lokost Games 2023
